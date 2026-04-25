@@ -1,10 +1,10 @@
 # PhyFreqSSM
 
-Official-style open-source layout for the main PhyFreqSSM model used in the paper.
+Open-source code for the main PhyFreqSSM model used in our paper.
 
-## Current scope
+## Current Scope
 
-This folder currently contains the runnable main-model path only:
+This repository currently contains the runnable main-model path only:
 
 - `train.py`: training entrypoint
 - `eval.py`: evaluation entrypoint
@@ -12,15 +12,15 @@ This folder currently contains the runnable main-model path only:
 - `configs/`: paper-final configs for the four datasets
 - `phyfreqssm/`: model, data, and utility package
 
-The codebase is being migrated from the paper workspace into a cleaner open-source structure. For now, some internals are still routed through `phyfreqssm/core.py` while the public API already follows the new naming.
+The repository has been organized into a cleaner open-source structure focused on the main model.
 
-## Main model command
+## Main Model Command
 
 ```bash
 python train.py --config configs/phyfreqssm_ip.yaml --all-seeds
 ```
 
-## Evaluation command
+## Evaluation Command
 
 ```bash
 python eval.py --config configs/phyfreqssm_ip.yaml --checkpoint checkpoints/best_checkpoint.pt --seed 3407 --split test
