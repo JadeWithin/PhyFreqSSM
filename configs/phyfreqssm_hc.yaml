@@ -1,0 +1,91 @@
+experiment:
+  name: phyfreqssm_hc
+  output_root: outputs
+  save_train_indices: true
+  save_predictions: true
+
+dataset:
+  name: WHU-Hi-HanChuan
+  root: ../data
+  split_mode: random_ratio
+  train_ratio: 0.005
+  val_ratio: 0.005
+  shots_per_class: 5
+  block_size: 8
+  spatial_guard_band: 0
+  spatial_axis: both
+  num_workers: 4
+
+preprocessing:
+  standardize: true
+  pca_bands: null
+  patch_size: 13
+  spectral_smoothing: false
+  smoothing_kernel: 5
+  class_balanced_sampler: false
+  compression_ratio: 0.4
+  entropy_guided_sampling: true
+  train_augmentation: true
+  aug_rot90: true
+  aug_hflip: true
+  aug_vflip: true
+
+model:
+  name: phyfreqssm
+  in_channels: null
+  num_classes: null
+  embed_dim: 128
+  depth: 4
+  dropout: 0.1
+  d_state: 64
+  scan_mode: single
+  use_dsst: true
+  use_spatial_freq_stem: true
+  use_raster_tokenizer: true
+  use_fg_ssd: true
+  use_local_branch: false
+  use_mamba_branch: true
+  use_pch: true
+  use_frequency_conditioning: true
+  use_lowfreq_for_delta_b: true
+  use_highfreq_for_c: true
+  use_noncausal_single_pass: true
+  use_multiscan_baseline: false
+  use_plain_reconstruction_head: false
+  allow_mamba_fallback: false
+  dsst_version: full
+  fgssd_variant: full
+
+loss:
+  label_smoothing: 0.0
+  reconstruction_type: mse
+  physics_type: sam_smoothness
+  lambda_recon: 0.15
+  lambda_physics: 0.05
+  stage_a_epochs: 20
+  stage_a_recon_weight: 0.0
+
+train:
+  device: cuda
+  optimizer: adamw
+  lr: 0.0005
+  weight_decay: 0.0001
+  batch_size: 128
+  epochs: 250
+  warmup_epochs: 10
+  amp: true
+  grad_clip: 1.0
+  early_stopping_patience: 40
+  seed: 3407
+  seeds: [3407, 3408, 3409, 3410, 3411, 3412, 3413, 3414, 3415, 3416]
+  deterministic: true
+  metric_for_best: hybrid
+  metric_weights: {oa: 0.7, macro_f1: 0.3}
+  report_confidence_interval: true
+
+benchmark:
+  num_warmup: 20
+  num_iters: 100
+
+logging:
+  print_freq: 20
